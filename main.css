@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+
+
+body {
+    font-family: "Ubuntu" !important;
+    overflow-y: hidden;
+    color: black;
+}
+
+.container {
+    max-width: 85%;
+    border: 1px 1px 0px 0px solid gray;
+}
+
+h1,
+.alert-primary,
+.nav-link,
+label,
+th,
+h4 {
+    font-weight: bolder !important;
+}
+
+
+.parameters div {
+    width: 100%;
+}
+
+.tab-pane {
+    overflow-y: scroll;
+    height: calc(60vh - 1.5rem);
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 6px;
+    background-color: white;
+}
+
+.btn {
+    font-weight: bolder;
+}
+
+input {
+    border-radius: 0px !important;
+}
+
+pre {
+    white-space: pre-wrap;
+    max-width: 75%;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
