@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIR Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+
+<body>
+    <div class="main">
+        <div class="input">
+            <h4>TIR Predictor</h4>
+            <table class="table table-bordered">
+                <thead id="sequence-table-head">
+                </thead>
+                <tbody id="sequences-table">
+                </tbody>
+                <td style="color: white; cursor: pointer;" class="bg-success text-center" colspan="6"
+                    class="text-center" id="sequence-adder">
+                    Click here to add sequence</td>
+            </table>
+            <p>OR</p>
+            <span>Upload file containing sequences:</span>
+            <br>
+            <input type="file" name="file" id="file">
+            <div style="display: flex; gap: 4px">
+              <button class="btn btn-primary" style="width: 100%; font-size: 18px;" id="submit-btn">
+                    Predict Initiation Rate
+                </button>
+                <button class="btn btn-success btn-sm"
+                    onclick="tableToCSV('sequence-output-table', 'Sequence Data')"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-download" viewBox="0 0 16 16">
+                        <path
+                            d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                    </svg></button>
+                <button class="btn btn-success btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path
+                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                    </svg></button>
+            </div>
+            <table class="table table-bordered" id="sequence-output-table">
+                <thead id="output-head"></thead>
+                <tbody id="output-body">
+                </tbody>
+            </table>
+            <hr>
+            <div class="gene-optimization">
+              <h4>Gene Optimization</h4>
+              <label for="target-i">Target Initiation Rate</label>
+              <input type="number" id="target-i" required class="form-control" placeholder="Ex. 0.1">
+              <label for="iterations">Number of Iterations</label>
+              <input type="number" id="iterations" min="10000" value="10000" class="form-control" placeholder="Ex. 1500">
+              <label for="temperatures">Temperatures</label>
+              <input type="number" id="temperatures1" name="kbt_1" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures2" name="kbt_2" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures3" name="kbt_3" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures4" name="kbt_4" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures5" name="kbt_5" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures6" name="kbt_6" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures7" name="kbt_7" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures8" name="kbt_8" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures9" name="kbt_9" class="form-control kbt-value" value="e-1" placeholder="e-1">
+              <input type="number" id="temperatures10" name="kbt_10" class="form-control kbt-value" value="e-1" placeholder="e-1">
+
+
+              </div>
+
+              
+                <label for="method">Choose a method</label>
+                <select class="form-select" id="method" required>
+                    <option selected>Choose a method</option>
+                    <option value="1">Optimization with UTR</option>
+                    <option value="2">Optimization with UTR and codon</option>
+                </select>
+                <br>
+                <div style="display: flex; gap: 4px">
+                  <button class="btn btn-primary btn-sm" style="width: 100%; padding: 12px; font-size: 28px;" id="optimize">
+                      Optimize
+                  </button>
+                    <button class="btn btn-success btn-sm"
+                        onclick="tableToCSV('optimized-output-table', 'Gene Optimization')"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                        </svg></button>
+                    <button class="btn btn-success btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path
+                                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                        </svg></button>
+                    <!-- <button class="btn btn-success btn-sm" style="width: 100%;">Email CSV</button> -->
+                </div>
+            </div>
+            <span style="display: none;" id="loading">Job in progress....</span>
+            <table class="table table-bordered" id="optimized-output-table">
+                <thead id="gene-head">
+                </thead>
+                <tbody id="optimized-output">
+                </tbody>
+            </table>
+        </div>
+        <div class="output">
+        </div>
+    </div>
+</body>
+<script src="{{url_for('static', filename='main.js')}}"></script>
+
+</html>

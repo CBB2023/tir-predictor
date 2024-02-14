@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet" />
+    <title>TIR Predictor</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+</head>
+
+<body>
+    <div class="container">
+        <br>
+        <h1>🧬 TIR Predictor and Optimiser</h1>
+        <br>
+      <div class="alert-primary p-3 br-4" style="border-radius: 10px; font-size: 18px;">
+        TIR predictor allows users to predict translation initiation rates in <em>Saccharomyces cerevisiae</em>
+        by using only mRNA sequence features.TIR optimizer allows users to optimize any gene sequence 
+        for a specific target initiation rate.
+      </div>
+
+        <br>
+        <!-- Tabs navs -->
+        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link active" id="tab-1" href="#tabs-1" role="tab" aria-controls="tabs-1" style="font-size: 18px;"
+                    aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link" id="tab-3" href="#tabs-3" role="tab" aria-controls="tabs-3" style="font-size: 18px;"
+                    aria-selected="false">tir predictor</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link" id="tab-4" href="#tabs-4" role="tab" aria-controls="tabs-4" style="font-size: 18px;"
+                    aria-selected="false">tir Optimiser</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link" id="tab-5" href="#tabs-5" role="tab" aria-controls="tabs-5" style="font-size: 18px;"
+                    aria-selected="false">disclaimer</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a data-mdb-tab-init class="nav-link" id="tab-6" href="#tabs-6" role="tab" aria-controls="tabs-6" style="font-size: 18px;"
+                    aria-selected="false">contact</a>
+            </li>
+        </ul>
+        <!-- Tabs navs -->
+
+        <!-- Tabs content -->
+        <div class="tab-content" id="ex2-content">
+            <div class="tab-pane fade show active" id="tabs-1" role="tabpanel" aria-labelledby="tab-1">
+                <p>
+                  The predictor is based on a machine learning algorithm that requires; coding sequence length, 
+                  length of 5’ UTR length, in-frame upstream AUG codons, KOZAK sequence, mRNA folding energy near 
+                  the start codon and the  nucleotides present at positions -6 and -3, respectively as input features. 
+                  The model is trained using the Random Forest algorithm on endogenous <em>S. cerevisiae</em>  transcript. 
+                  It accurately predicts the initiation rate of endogenous and exogenous transcripts in <em>S. cerevisiae</em>. 
+                </p>
+                <p>
+                  TIR optimiser combines the TIR predictor with the Monte-Carlo search algorithm and optimizes gene 
+                  sequences for a specific initiation rate in <em>S. cerevisiae</em>. 
+                </p>
+                </p>
+                <h3>How to use the TIR predictor?</h3>
+                <p>
+                  You just need to enter the mRNA sequence of a gene (with 5’ UTR). It can be pasted to the window
+                  or uploaded as a file.  You also need to supply the start and stop codon indices. Start codon index
+                  is the number of the first nucleotide of the start codon when counted from the 5’ end. Similarly, 
+                  the stop codon index is the exact position of the first nucleotide of the stop codon from the 5' end.
+                  The web-server allows predicting initiation rate of multiple sequences using one single input file.
+                </p>
+                <p>
+                  Please make sure that the number of nucleotides in the coding sequence should be a multiple of three,
+                  otherwise the web-server will show an error in the code.
+                </p>
+              <p>You can download the sample file from <a href="{{url_for('download', filename='sample_gene.txt')}}">here</a></p>
+                <h3>How to use the TIR optimiser</h3>
+                <p>
+                  To use TIR optimiser, you need to provide the sequence which you wish to optimize for a target 
+                  initiation rate. The nucleotide sequence of the desired gene must be pasted to a dialogue box 
+                  labeled as “enter the sequence”. In addition to that, you also need to supply start and stop 
+                  codon indices and target initiation rate (see TIR predictor for the definition of start and 
+                  stop codon indices.) Then,  click on the "TIR optimiser" to initiate the gene optimisation process.
+                  The optimized sequence (with initiation rate) is displayed in a form of the table which can also 
+                  be downloaded as a file. 
+                </p>
+                <p>
+                  The TIR optimizer utilizes a simulated annealing procedure to effectively locate global minima. 
+                  By default, we establish a consistent effective temperature variation, ensuring an equal number
+                  of iterations for each effective temperature. Users have the option to modify the effective 
+                  temperature by filling in the dialogue box. It's important to note that the effective temperature 
+                  is not an actual temperature. We recommend that any variations made should be in the same order 
+                  of magnitude as the default temperature. You can also change the default number of iterations in
+                  the dialogue box. Please note that more iteration steps leads to a longer optimisation time. 
+                </p>
+              <p>
+                  <p>You can download the sample file from <a href="{{url_for('download', filename='sample_gene.txt')}}">here</a></p>
+            </div>
+            <div class="tab-pane fade" id="tabs-3" role="tabpanel" aria-labelledby="tab-3">
+                <h4>Initiation rate prediction</h4>
+                <table class="table table-bordered">
+                    <thead id="sequence-table-head">
+                    </thead>
+                    <tbody id="sequences-table">
+                    </tbody>
+                    <td style="color: white; cursor: pointer;" class="bg-success text-center" colspan="6"
+                        class="text-center" id="sequence-adder">
+                        Click here to add sequence</td>
+                </table>
+                <p>OR</p>
+                <span>Upload file containing sequences:</span>
+                <br>
+                <input type="file" name="file" id="file">
+                <div style="display: flex; gap: 4px">
+                    <button class="btn btn-primary" style="width: 100%;" id="submit-btn">
+                        Predict Initiation Rate
+                    </button>
+                    <button class="btn btn-success btn-sm"
+                        onclick="tableToCSV('sequence-output-table', 'Sequence Data')"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                        </svg></button>
+                    <!-- <button class="btn btn-success btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path
+                                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                        </svg></button> -->
+                </div>
+                <table class="table table-bordered" id="sequence-output-table">
+                    <thead id="output-head"></thead>
+                    <tbody id="output-body">
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="tab-pane fade" id="tabs-4" role="tabpanel" aria-labelledby="tab-4">
+                <h4>Gene Optimisation</h4>
+                <label for="op-sequence">Enter the Sequence</label>
+                <input type="text" id="op-sequence" required class="form-control" placeholder="Sequence">
+                <div class="d-flex parameters">
+                    <div>
+                        <label for="start_codon_index">Start Codon Index</label>
+                        <input type="number" id="start_codon_index" required class="form-control"
+                            placeholder="Start Codon Index">
+                    </div>
+                    <div>
+                        <label for="stop_codon_index">Stop Codon Index</label>
+                        <input type="number" id="stop_codon_index" required class="form-control"
+                            placeholder="Stop Codon Index">
+                    </div>
+                    <div>
+                        <label for="target-i">Target Initiation Rate</label>
+                        <input type="number" id="target-i" required class="form-control" placeholder="Ex. 0.1">
+                    </div>
+                    <div>
+                        <label for="iterations">Number of Iterations</label>
+                        <input type="number" id="iterations" min="10000" value="10000" class="form-control"
+                            placeholder="Ex. 1500">
+                    </div>
+                </div>
+              <div>
+                <label for="temperatures">Temperatures</label>
+                <div class="d-flex">
+                  <input type="number" id="temperatures1" name="kbt_1" class="form-control kbt-value" value="0.1">
+                  <input type="number" id="temperatures2" name="kbt_2" class="form-control kbt-value" value="0.01" placeholder="e-1">
+                  <input type="number" id="temperatures3" name="kbt_3" class="form-control kbt-value" value="0.001" placeholder="e-1">
+                  <input type="number" id="temperatures4" name="kbt_4" class="form-control kbt-value" value="0.001" placeholder="e-1">
+                  <input type="number" id="temperatures5" name="kbt_5" class="form-control kbt-value" value="0.0001" placeholder="e-1">
+                  <input type="number" id="temperatures6" name="kbt_6" class="form-control kbt-value" value="0.0001" placeholder="e-1">
+                  <input type="number" id="temperatures7" name="kbt_7" class="form-control kbt-value" value="0.00001" placeholder="e-1">
+                  <input type="number" id="temperatures8" name="kbt_8" class="form-control kbt-value" value="0.00001" placeholder="e-1">
+                  <input type="number" id="temperatures9" name="kbt_9" class="form-control kbt-value" value="0.00001" placeholder="e-1">
+                  <input type="number" id="temperatures10" name="kbt_10" class="form-control kbt-value" value="0.00001" placeholder="e-1">
+
+                </div>
+              </div>
+
+                <div>
+                    <label for="method">Choose a method</label>
+                    <select class="form-select" id="method" required>
+                        <option selected>Choose a method</option>
+                        <option value="1">Optimisation with UTR</option>
+                        <option value="2">Optimisation with UTR and codon</option>
+                    </select>
+                </div>
+                <br>
+                <div style="display: flex; gap: 4px">
+                    <button class="btn btn-primary btn-lg" style="width: 100%;" id="optimize">
+                        Optimise
+                    </button>
+                    <button class="btn btn-success btn-sm"
+                        onclick="tableToCSV('optimized-output-table', 'Gene Optimization')"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-download" viewBox="0 0 16 16">
+                            <path
+                                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                            <path
+                                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                        </svg></button>
+                    <!-- <button class="btn btn-success btn-sm" style="width: 100%;">Email CSV</button> -->
+                </div>
+                <span style="display: none;" id="loading">Job in progress....</span>
+                <table class="table table-bordered" id="optimized-output-table">
+                    <thead id="gene-head">
+                    </thead>
+                    <tbody id="optimized-output">
+                    </tbody>
+                </table>
+				<div style="text-align:center;">
+					<p style="color:red;">Note: For a large number of iterations, we recommend downloading the
+					offline version of the TIR optimizer from GitHub 
+					<a href="https://github.com/CBB2023/tirpredictor">https://github.com/CBB2023/tirpredictor.</a>
+					You can then run it on your local machine for faster processing.</p>
+				</div>
+            </div>
+            <div class="tab-pane fade" id="tabs-5" role="tabpanel" aria-labelledby="tab-5">
+                <p id="disclaimer-content">
+                    TIR predictor is a free service offered to the scientific
+                    community.Extracts of the information in the web site may be reviewed,
+                    reproduced or translated for research or private study but may not be
+                    sold or used in conjunction with commercial purposes, and provided any
+                    use is subject to an appropriate acknowledgement of the source.
+                </p>
+                <p id="disclaimer-content2">
+                    When using TIR predictor, authors should refer to the following
+                    publication: Sulagno Chakraborty, Inayat Ullah Irshad, Mahima and Ajeet
+                    Sharma."TIR Predictor and Optimizer: Web-tools for accurate
+					prediction of translation initiation rate and precision gene
+					design."
+                </p>
+                <p id="disclaimer-content3">
+                    The data and information contained herein and in the results of TIR
+                    predictor are provided on an ''as is'' basis and IIT Jammu makes no
+                    representations or warranties, either expressed or implied, as to their
+                    accuracy, completeness or suitability for a particular purpose.
+                    Similarly, IIT Jammu makes no representations or warranties with regard
+                    to the non-infringement of third party proprietary rights. Thus, IIT
+                    Jammu does not accept any responsibility or liability with regard to the
+                    reliance on, and/or use of, such data and information.
+                </p>
+            </div>
+            <div class="tab-pane fade" id="tabs-6" role="tabpanel" aria-labelledby="tab-6">
+                <p id="contact-content">
+                    For questions or comments concerning the research feel free to
+                    contact<br />
+                    Ajeet Sharma:
+                    <a href="mailto:ajeet.sharma@iitjammu.ac.in">ajeet.sharma@iitjammu.ac.in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- Tabs content -->
+    </div>
+    <br>
+    <p class="text-center footer">© 2023 - Computational Biology and Biophysics Lab, IIT Jammu at — All Rights Reserved.
+    </p>
+</body>
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"></script>
+<script src="{{url_for('static', filename='main.js')}}"></script>
+
+</html>
